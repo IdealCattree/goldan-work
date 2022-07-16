@@ -1,0 +1,15 @@
+spring:
+  datasource:
+    username: root
+    password: root1234
+    url: jdbc:mysql://localhost:3306/golden-house?serverTimezone=GMT%2B8
+
+logging:
+  level:
+    com.ideal.jk.mapper: debug
+
+golden:
+  prop-config:
+    cors-origins:
+      - http://127.0.0.1:5500
+

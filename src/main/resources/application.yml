@@ -1,0 +1,13 @@
+server:
+  port: 80
+spring:
+  profiles:
+    active: dev
+  datasource:
+    driver-class-name: com.mysql.cj.jdbc.Driver
+    type: com.alibaba.druid.pool.DruidDataSource
+mybatis-plus:
+  global-config:
+    db-config:
+      id-type: auto
+  type-aliases-package: com.ideal.golden.pojo
