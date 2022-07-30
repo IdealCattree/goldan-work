@@ -1,0 +1,85 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.ideal.golden.mapper.ArticleMapper">
+    <resultMap id="count" type="java.lang.Integer">
+        <result column="count"/>
+    </resultMap>
+
+    <resultMap id="mapArticle" type="com.ideal.golden.model.vo.ArticleVo">
+        <id property="id" column="a_id"/>
+        <result column="title" property="title"/>
+        <result column="image" property="image"/>
+        <result column="like" property="like"/>
+        <result column="view" property="view"/>
+        <result column="a_abstract" property="aAbstract"/>
+        <result column="create_time" property="createTime"/>
+        <result column="update_time" property="updateTime"/>
+        <result column="user_id" property="userId"/>
+        <association property="typePo" javaType="com.ideal.golden.model.entity.TypePo">
+            <id column="type_id" property="id"/>
+            <result column="type_name" property="typeName"/>
+        </association>
+    </resultMap>
+
+
+
+    <sql id="searchList">
+        SELECT a.id as a_id,
+               title,
+               image,
+               `like`,
+               `view`,
+               a_abstract,
+               create_time,
+               update_time,
+               user_id,
+               type.id type_id,
+               type.type_name
+        FROM article a
+                LEFT JOIN k_a_tag a_t
+                    ON a_t.article_id = a.id
+                LEFT JOIN a_tag t
+                    ON t.id = a_t.tag_id
+                LEFT JOIN a_type type
+                    ON type.id = a.type_id
+    </sql>
+
+    <sql id="sortSql">
+        <if test="sort == 1">
+            ORDER BY a.`view` DESC
+        </if>
+
+        <if test="sort == 2">
+            ORDER BY `create_time` DESC
+        </if>
+
+        <if test="sort == 3">
+            ORDER BY a.`like` DESC
+        </if>
+    </sql>
+
+    <!--    根据tagId 分页查询文章列表-->
+    <select id="recommendList" resultMap="mapArticle">
+        <include refid="searchList"/>
+        <where>
+            <if test="tagId != null">
+                a_t.tag_id = #{tagId}
+            </if>
+        </where>
+        <include refid="sortSql"/>
+    </select>
+    
+    
+    <select id="searchArticleList" resultMap="mapArticle">
+        SELECT a.id a_id, title, image, `like`, `view`, a_abstract, create_time, update_time, user_id, type.id type_id, type.type_name
+        FROM article a
+        LEFT JOIN a_type type
+        ON a.type_id = type.id
+        <if test="keyword != null">
+            WHERE title LIKE CONCAT('%', #{keyword}, '%')
+            OR content LIKE CONCAT('%', #{keyword}, '%')
+            OR a_abstract LIKE CONCAT('%', #{keyword}, '%')
+        </if>
+        <include refid="sortSql"/>
+    </select>
+</mapper>

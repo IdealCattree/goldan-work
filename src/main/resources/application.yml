@@ -7,7 +7,7 @@ spring:
     driver-class-name: com.mysql.cj.jdbc.Driver
     type: com.alibaba.druid.pool.DruidDataSource
   jackson:
-    default-property-inclusion: non_null
+    default-property-inclusion: always
 
 mybatis-plus:
   global-config:

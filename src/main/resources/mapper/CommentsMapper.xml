@@ -1,0 +1,35 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.ideal.golden.mapper.CommentsMapper">
+    <resultMap id="mapSelectListByArticleId" type="com.ideal.golden.model.vo.CommentsVo">
+        <id column="c1_id" property="id"/>
+        <result column="c1_content" property="content"/>
+        <result column="c1_create_time" property="createTime"/>
+        <result column="c1_user_id" property="userId"/>
+        <result column="c1_parent_id" property="parentId"/>
+        <result column="c1_t_name" property="tName"/>
+        <result column="c1_t_website" property="tWebsite"/>
+        <result column="c1_t_email" property="tEmail"/>
+        <collection property="children" ofType="com.ideal.golden.model.vo.CommentsVo">
+            <id column="c2_id" property="id"/>
+            <result column="c2_content" property="content"/>
+            <result column="c2_create_time" property="createTime"/>
+            <result column="c2_user_id" property="userId"/>
+            <result column="c2_parent_id" property="parentId"/>
+            <result column="c2_t_name" property="tName"/>
+            <result column="c2_t_website" property="tWebsite"/>
+            <result column="c2_t_email" property="tEmail"/>
+        </collection>
+    </resultMap>
+    <select id="selectListByArticleId" resultMap="mapSelectListByArticleId">
+        SELECT
+               c1.id c1_id, c1.content c1_content, c1.user_id c1_user_id, c1.parent_id c1_parent_id, c1.create_time c1_create_time, c1.t_email c1_t_email, c1.t_name c1_t_name, c1.t_website c1_t_website,
+               c2.id c2_id, c2.content c2_content, c2.user_id c2_user_id, c2.parent_id c2_parent_id, c2.create_time c2_create_time, c2.t_email c2_t_email, c2.t_name c2_t_name, c2.t_website c2_t_website
+        FROM comments c1
+        INNER JOIN comments c2
+        ON c1.id = c2.top_id
+        WHERE c1.article_id = #{id}
+    </select>
+</mapper>
+
+

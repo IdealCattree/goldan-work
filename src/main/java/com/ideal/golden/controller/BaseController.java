@@ -1,10 +1,11 @@
 package com.ideal.golden.controller;
 
 import com.baomidou.mybatisplus.extension.service.IService;
-import com.ideal.golden.pojo.result.R;
-import com.ideal.golden.utils.Rs;
+import com.ideal.golden.model.result.ResultVo;
+import com.ideal.golden.common.utils.ResultHelper;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestBody;
 
 import java.util.Arrays;
 
@@ -18,9 +19,9 @@ public abstract class BaseController<T> {
      * @return 统一处理的返回值
      */
     @PostMapping("/save")
-    public R save(T entity) {
+    public ResultVo save(@RequestBody T entity) {
         boolean save = getService().saveOrUpdate(entity);
-        return save ? Rs.ok("保存成功") : Rs.error("保存失败");
+        return save ? ResultHelper.ok("保存成功") : ResultHelper.error("保存失败");
     }
 
     /**
@@ -29,9 +30,9 @@ public abstract class BaseController<T> {
      * @return 统一处理的返回值
      */
     @DeleteMapping("/remove")
-    public R remove(String ids) {
+    public ResultVo remove(String ids) {
         boolean b = getService().removeByIds(Arrays.asList(ids.split(",")));
-        return b ? Rs.ok("删除成功") : Rs.error("删除失败");
+        return b ? ResultHelper.ok("删除成功") : ResultHelper.error("删除失败");
     }
 
 }

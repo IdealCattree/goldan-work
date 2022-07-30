@@ -1,15 +1,15 @@
 package com.ideal.golden.service;
 
 import com.baomidou.mybatisplus.extension.service.IService;
-import com.ideal.golden.pojo.po.Tag;
-import com.ideal.golden.pojo.query.TagQuery;
+import com.github.pagehelper.PageInfo;
+import com.ideal.golden.model.entity.TagPo;
+import com.ideal.golden.model.dto.TagQueryDto;
 
 import java.util.List;
 
-public interface TagService extends IService<Tag> {
-    void listById(TagQuery tagQuery);
+public interface TagService extends IService<TagPo> {
 
-    void list(TagQuery tagQuery);
+    PageInfo<TagPo> list(TagQueryDto tagQuery);
 
-    List<Tag> allList();
+    List<TagPo> allList();
 }

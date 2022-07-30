@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.ideal.golden.mapper.ArticleTagMapper">
+
+    <select id="selectTagListByArticleId" resultType="com.ideal.golden.model.entity.TagPo">
+        SELECT a_t.tag_id as id, t.tag_name FROM k_a_tag a_t
+           LEFT JOIN a_tag t
+            ON a_t.tag_id = t.id
+        WHERE a_t.article_id = #{id}
+    </select>
+</mapper>

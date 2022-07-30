@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.ideal.golden.mapper.TagMapper">
+    <resultMap id="mapQueryTagDto" type="com.ideal.golden.model.dto.QueryTagDto">
+        <result column="a_id" property="articleId"/>
+        <collection property="tagPoList" ofType="com.ideal.golden.model.entity.TagPo">
+            <result column="t_id" property="id"/>
+            <result column="t_name" property="tagName"/>
+        </collection>
+    </resultMap>
+
+    <select id="getTagListByArticleId" resultMap="mapQueryTagDto">
+        SELECT a_t.article_id as a_id, t.id as t_id, t.tag_name as t_name FROM a_tag t
+        JOIN k_a_tag a_t
+        ON t.id = a_t.tag_id
+        WHERE a_t.article_id IN
+        <foreach collection="articleIds" item="item" index="index" open="(" close=")" separator=",">
+            #{item}
+        </foreach>
+
+    </select>
+</mapper>
