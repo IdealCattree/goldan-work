@@ -78,7 +78,7 @@ public class CommentsServiceImpl extends ServiceImpl<CommentsMapper, CommentsPo>
 
             // 如果相同则逻辑删除
             lambdaUpdate().eq(CommentsPo::getId, id)
-                    .eq(CommentsPo::getDeleteTime, null)
+                    .isNull(CommentsPo::getDeleteTime)
                     .set(CommentsPo::getDeleteTime, new Date())
                     .update();
 
@@ -87,7 +87,7 @@ public class CommentsServiceImpl extends ServiceImpl<CommentsMapper, CommentsPo>
 
                 // 如果是顶级id 则将其下所有评论全部逻辑删除
                 lambdaUpdate().eq(CommentsPo::getTopId, id)
-                        .eq(CommentsPo::getDeleteTime, null)
+                        .isNull(CommentsPo::getDeleteTime)
                         .set(CommentsPo::getDeleteTime, new Date())
                         .update();
 
@@ -98,7 +98,7 @@ public class CommentsServiceImpl extends ServiceImpl<CommentsMapper, CommentsPo>
                 // 如果有 则全部逻辑删除
                 if (allCommentsChild.size() > 0) {
                     lambdaUpdate().in(CommentsPo::getId, allCommentsChild)
-                            .eq(CommentsPo::getDeleteTime, null)
+                            .isNull(CommentsPo::getDeleteTime)
                             .set(CommentsPo::getDeleteTime, new Date())
                             .update();
                 }
