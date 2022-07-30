@@ -30,5 +30,7 @@ public class CommentsPo {
     private String tWebsite;
     // 顶级评论id
     private Integer topId;
+    // 删除时间
+    private Date deleteTime;
 
 }
