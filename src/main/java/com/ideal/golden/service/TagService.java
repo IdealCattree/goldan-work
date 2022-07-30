@@ -10,6 +10,4 @@ import java.util.List;
 public interface TagService extends IService<TagPo> {
 
     PageInfo<TagPo> list(TagQueryDto tagQuery);
-
-    List<TagPo> allList();
 }

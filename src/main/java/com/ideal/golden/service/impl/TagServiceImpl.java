@@ -30,24 +30,9 @@ public class TagServiceImpl extends ServiceImpl<TagMapper, TagPo> implements Tag
     @Transactional(readOnly = true)
     public PageInfo<TagPo> list(TagQueryDto tagQuery) {
 
-        MpQueryWrapper<TagPo> wrapper = new MpQueryWrapper<>();
         PageHelper.startPage(tagQuery.getPageNumber(), tagQuery.getPageSize());
-        PageInfo<TagPo> tagPoPageInfo = new PageInfo<>(baseMapper.selectList(wrapper));
+        PageInfo<TagPo> tagPoPageInfo = new PageInfo<>(lambdaQuery().list());
         return tagPoPageInfo;
 
-    }
-
-    /**
-    * @作者: Ideal
-    * @说明: 查询所有标签
-    * @时间: 2022/7/29 17:56
-    * @return java.util.List<com.ideal.golden.model.entity.TagPo>
-    */
-    @Override
-    @Transactional(readOnly = true)
-    public List<TagPo> allList() {
-        MpQueryWrapper<TagPo> wrapper = new MpQueryWrapper<>();
-        wrapper.orderByAsc(TagPo::getId);
-        return baseMapper.selectList(wrapper);
     }
 }

@@ -22,8 +22,7 @@ public class TagController extends BaseController<TagPo> {
 
     @GetMapping("/allList")
     public ResultVo allList() {
-        List<TagPo> tags = tagService.allList();
-        return ResultHelper.ok(tags);
+        return ResultHelper.ok(tagService.lambdaQuery().orderByAsc(TagPo::getId).list());
     }
 
     @GetMapping("/list")

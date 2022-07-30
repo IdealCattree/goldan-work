@@ -1,9 +1,7 @@
 package com.ideal.golden.service.impl;
 
-import com.baomidou.mybatisplus.extension.service.IService;
+import com.baomidou.mybatisplus.extension.conditions.query.LambdaQueryChainWrapper;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
-import com.ideal.golden.common.enhance.MpQueryWrapper;
-import com.ideal.golden.mapper.ArticleMapper;
 import com.ideal.golden.mapper.ArticleTagMapper;
 import com.ideal.golden.model.entity.ArticleTagPo;
 import com.ideal.golden.service.ArticleTagService;
@@ -21,8 +19,8 @@ public class ArticleTagServiceImpl extends ServiceImpl<ArticleTagMapper, Article
 
     @Override
     public boolean removeByArticleId(String articleId) {
-        MpQueryWrapper<ArticleTagPo> wrapper = new MpQueryWrapper<>();
-        wrapper.eq(ArticleTagPo::getArticleId, articleId);
+
+        LambdaQueryChainWrapper<ArticleTagPo> wrapper = lambdaQuery().eq(ArticleTagPo::getArticleId, articleId);
         int delete = baseMapper.delete(wrapper);
         return delete > 0;
     }
